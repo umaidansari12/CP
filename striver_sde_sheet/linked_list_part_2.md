@@ -188,10 +188,42 @@ bool detectCycle(Node *head)
 
 Time Complexity : O(N)
 Space Complexity : O(1)
+```
+* ## Reverse Linked List in groups of size k
+```
+Problem Statement: Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list. k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
 
+Approach : First reverse each group of size k then connect pointers using recursion
 
+Code : 
+
+struct node *reverse (struct node *head, int k)
+{
+    // Complete this method
+    node* curr = head;
+    node* prev = NULL;
+    node* next = NULL;
+    int count = 0;
+    while (curr and count < k)
+    {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+        count++;
+    }
+    if (next)
+    {
+        head->next = reverse(next, k);
+    }
+    return prev;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(1)
+
+# Note : Can be done with iteration also as explained by striver but not needed now , will learn later as recursive is pretty intuitive
 
 ```
-
 
 
