@@ -70,6 +70,52 @@ public:
 		}
 		return true;
 	}
+
+	LinkedListNode<int>* reverse(LinkedListNode<int>* head) {
+		LinkedListNode<int>* curr = head;
+		LinkedListNode<int>* prev = NULL;
+		LinkedListNode<int>* next = NULL;
+
+		while (curr) {
+			next = curr->next;
+			curr->next = prev;
+			prev = curr;
+			curr = next;
+		}
+
+		return prev;
+	}
+
+	bool isPalindrome(LinkedListNode<int> *head) {
+		// Write your code here.
+		if (head == NULL or head->next == NULL)
+			return true;
+
+		LinkedListNode<int>* fast = head;
+		LinkedListNode<int>* slow = head;
+
+		while (fast->next != NULL and fast->next->next != NULL) {
+			fast = fast->next->next;
+			slow = slow->next;
+		}
+
+		slow->next = reverse(slow->next);
+		slow = slow->next;
+
+		while (slow) {
+			if (head->data != slow->data) {
+				return false;
+			}
+
+			head = head->next;
+			slow = slow->next;
+		}
+
+
+		return true;
+
+
+	}
 };
 
 
