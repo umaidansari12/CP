@@ -1,0 +1,1 @@
+[{"input":"3\n5\nLLLUR\n7\nLLLRUUD\n8\nLRULLUDU","output":"0 1\n-1 1\n-2 2"}]

@@ -1,0 +1,156 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long int ll;
+class BinaryMinHeap {
+private:
+	vector<ll> m_heaps;
+	int s = 0;
+public:
+	void SiftUp(int i)
+	{
+		int p = Parent(i);
+		while (i > 0 && m_heaps[i] < m_heaps[p])
+		{
+			swap(m_heaps[i], m_heaps[p]);
+			i = p;
+			p = Parent(i);
+		}
+	}
+	void SiftDown(int i)
+	{
+		int min_idx = i;
+		int l = LeftChild(i);
+		int r = RightChild(i);
+		if ((l < s) && (m_heaps[l] < m_heaps[min_idx]))
+		{
+			min_idx = l;
+		}
+		if ((r < s) && (m_heaps[r] < m_heaps[min_idx]))
+		{
+			min_idx = r;
+		}
+		if (min_idx != i)
+		{
+			swap(m_heaps[min_idx], m_heaps[i]);
+			SiftDown(min_idx);
+		}
+	}
+	int GetMax()
+	{
+		return m_heaps[0];
+	}
+	int Parent(int child_idx)
+	{
+		return int((child_idx - 1) / 2);
+	}
+	int LeftChild(int parent_idx)
+	{
+		return (2 * parent_idx) + 1;
+	}
+	int RightChild(int parent_idx)
+	{
+		return (2 * parent_idx) + 2;
+	}
+	void Insert(int element)
+	{
+		m_heaps.push_back(element);
+		SiftUp(s - 1);
+		s++;
+	}
+	int ExtractMax()
+	{
+		int result = m_heaps[0];
+		m_heaps[0] = m_heaps[s - 1];
+		s--;
+		SiftDown(0);
+		return result;
+	}
+	int Find(int i, int element)
+	{
+		int l = LeftChild(i);
+		int r = RightChild(i);
+		if (i == s)
+			return -1;
+		if (m_heaps[i] == element)
+		{
+			return i;
+		}
+		else if (m_heaps[l] == element)
+		{
+			return l;
+		}
+		else if (m_heaps[r] == element)
+		{
+			return r;
+		}
+		Find(l, element);
+		Find(r, element);
+	}
+	void Remove(int element)
+	{
+		int pos = Find(0, element);
+		m_heaps[pos] = INT_MIN;
+		SiftUp(pos);
+		ExtractMx();
+	}
+	void Display()
+	{
+	    for(int i=0;i<s;i++)
+        {
+            cout<<m_heaps[i]<<" ";
+        }
+        cout<<endl;
+	}
+};
+
+int main()
+{
+	ios_base :: sync_with_stdio(false);
+	//cin.tie(NULL);
+	//cout.tie(NULL);
+
+	BinaryMinHeap heap_builder;
+	cout << "------------------------------\n\tBinary Min Heap\n--------------------------------\n1.Insert()\n2.Remove()\n3.ExtractMax()\n4.GetMax()\n5.ChangePriority()\n6.Exit()\n--------------------------------\nEnter Your Choice (1-6): ";
+	int c;
+	cin >> c;
+	do
+	{
+		if (c == 1)
+		{
+			int x;
+			cin >> x;
+			heap_builder.Insert(x);
+		}
+		else if (c == 2)
+		{
+			int x;
+			cin >> x;
+			heap_builder.Remove(x);
+		}
+		else if (c == 3)
+		{
+			cout << heap_builder.ExtractMin() << endl;
+		}
+		else if (c == 4)
+		{
+			cout << heap_builder.GetMin() << endl;
+		}
+		else if (c == 5)
+		{
+			int x, p;
+			cin >> x >> p;
+//			heap_builder.ChangePriority(x, p);
+		}
+		else
+		{
+		    heap_builder.Display();
+		}
+		cout << "Enter Your Choice : ";
+		cin >> c;
+	}
+	while (c <= 6);
+
+
+	return 0;
+}

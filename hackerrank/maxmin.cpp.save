@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+int maxMin(int k, vector<int> arr) {
+    sort(arr.begin(),arr.end());
+    cout<<endl;
+    for(int i=0;i<arr.size();i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+    cout<<endl;
+    cout<<arr[k-120
+5
+4504
+1520
+5857
+4094
+4157
+3902
+822
+6643
+2422
+7288
+8245
+9948
+2822
+1784
+7802
+3142
+9739
+5629
+5413
+7232]<<" "<<arr[0]<<endl;
+    return arr[k-1]-arr[0];
+}
+
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector <int> arr(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>arr[i];
+    }
+    cout<<maxMin(k,arr);
+}

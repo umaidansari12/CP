@@ -1,0 +1,1 @@
+/*An interesting property to note about elements on a specific diagonal is that the slope distance of every element present on a specific diagonal is same.*/

@@ -1,0 +1,13 @@
+https://www.codechef.com/problems/SNAKEEAT
+
+https://www.spoj.com/problems/FACVSPOW/
+
+https://www.spoj.com/problems/ABCDEF/
+
+https://www.spoj.com/problems/AGGRCOW/
+
+https://codeforces.com/problemset/problem/448/D
+
+https://codeforces.com/problemset/problem/1251/D
+
+https://www.hackerearth.com/practice/algorithms/searching/binary-search/practice-problems/algorithm/monks-encounter-with-polynomial/

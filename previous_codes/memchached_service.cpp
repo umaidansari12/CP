@@ -1,0 +1,34 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+	// your code goes here
+	int T;
+	cin >> T;
+	while (T--)
+	{
+		int n;
+		cin >> n;
+		string s;
+		bool f = false, e = false;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> s;
+			if (s.compare("start") == 0)
+				f = true;
+			else if (s.compare("restart") == 0)
+				f = true;
+			else if (s.compare("stop") == 0)
+			{
+				if (f == false)
+					e = true;
+				f = false;
+			}
+		}
+		if (!e)
+			cout << 200 << endl;
+		else
+			cout << 404 << endl;
+	}
+	return 0;
+}
