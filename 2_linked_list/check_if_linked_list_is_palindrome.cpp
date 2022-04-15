@@ -94,6 +94,7 @@ public:
 		LinkedListNode<int>* fast = head;
 		LinkedListNode<int>* slow = head;
 
+		// to stop at the first middle point
 		while (fast->next != NULL and fast->next->next != NULL) {
 			fast = fast->next->next;
 			slow = slow->next;
