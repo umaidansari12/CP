@@ -167,6 +167,10 @@ Space Complexity : O(N)
 
 Approach : Use slow and fast pointer and they are bound to collide at some point if there is a cycle in the linked list.
 
+Intuition : Think of the case when slow pointer is at some position and the fast pointer is just behind it and as the slow pointer moves one step and fast pointer moves 2 steps at a time so at the next moment they will collide and similary if there is a cycle every case will boil down to this stage where fast pointer is behind slow pointer and at next step they will collide for sure.
+
+f------>s------>fs
+
 Code :
 
 bool detectCycle(Node *head)
@@ -225,5 +229,152 @@ Space Complexity : O(1)
 # Note : Can be done with iteration also as explained by striver but not needed now , will learn later as recursive is pretty intuitive
 
 ```
+
+* ## Check if given Linked List is Palindrome
+```
+Problem Statement: Given the head of a singly linked list, return true if it is a palindrome.
+
+# Brute
+
+Approach : Use stack data structure to first store the nodes of the linked list in the reversed order , now traverse the list again and simultaneously traverse stack also and check if any node's value is not matching then the given linked list is not palindrome.
+
+Code :
+bool isPalindrome(Node *head)
+{
+    //Your code here
+    Node* curr = head;
+    stack<int> reversed;
+    while (curr) {
+        reversed.push(curr->data);
+        curr = curr->next;
+    }
+
+    while (!reversed.empty()) {
+        int _pop = reversed.top();
+        reversed.pop();
+        if (_pop != head->data)
+            return false;
+        head = head->next;
+    }
+    return true;
+}
+
+Time Complexity : O(N) + O(N) ~ O(N)
+Space Complexity : O(N)
+
+Approach : Use any extra data structures to store the nodes of linked list and observe the element at ith position will be similar to (n-i-1)th position of the linked list if the linked list is palindrome.
+
+Code : 
+bool isPalindrome(Node *head)
+{
+    //Your code here
+    vector<int> dummy;
+    Node* curr = head;
+    while (curr) {
+        dummy.push_back(curr->data);
+        curr = curr->next;
+    }
+    int _size = dummy.size();
+    for (int i = _size - 1; i >= 0; i--) {
+        if (head->data != dummy[i])
+            return false;
+
+        head = head->next;
+    }
+    return true;
+}
+
+Time Complexity : O(N) + O(N) ~ O(N)
+Space Complexity : O(N)
+
+# Optimal
+
+Approach : To find the first middle point in the linked list if the size of the linked list is even and find middle point if the size is odd then reverse the linked list from next of middle point and then start traversing simultaneously starting from head and next of middle and check for match.
+
+Intuition : left half of linked list == reverse of right half of linked list => to check for palindrome
+
+Code : 
+
+LinkedListNode<int>* reverse(LinkedListNode<int>* head){
+	LinkedListNode<int>* curr = head;
+	LinkedListNode<int>* prev = NULL;
+	LinkedListNode<int>* next = NULL;
+	
+	while(curr){
+		next=curr->next;
+		curr->next = prev;
+		prev=curr;
+		curr=next;
+	}
+	
+	return prev;
+}
+
+bool isPalindrome(LinkedListNode<int> *head) {
+    // Write your code here.
+	if(head==NULL or head->next==NULL)
+		return true;
+	
+	LinkedListNode<int>* fast = head;
+	LinkedListNode<int>* slow = head;
+
+    // to stop at the first middle point	
+	while(fast->next!=NULL and fast->next->next!=NULL){
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+	
+	slow->next = reverse(slow->next);
+	slow = slow->next;
+	
+	while(slow){
+		if(head->data!=slow->data){
+			return false;
+		}
+		
+		head=head->next;
+		slow=slow->next;
+	}
+	
+	
+	return true;
+}
+
+Time Complexity : O(N/2) + O(N/2) + O(N/2) ~ O(N)
+Space Complexity : O(1)
+```
+* ## Find the Starting point of loop in a Linked List
+```
+Problem Statement: Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+# Brute
+
+Approach : Use hash to store each node traversed and check if the current node is already present in the hash or not.
+
+Code : 
+Node *firstNode(Node *head)
+{
+	//    Write your code here.
+	unordered_set<Node*> hash;
+	
+	while(head){
+		if(hash.find(head)!=hash.end()){
+			return head;
+		}
+		hash.insert(head);
+		head=head->next;
+	}
+	return NULL;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(N)
+
+# Optimal
+
+Approach : The approach is using fast and slow pointer and we will use 2 steps , first is to detect the cycle , we will move fast pointer by 2 steps and slow pointer by only 1 step and move both of them simultaneously and we can see if cycle exists then both of them will collide at some timw with fast pointer taking some turns as it was moving 2 times faster than the slow point. Now if the cycle exists we will reset fast pointer to head and move fast and slow pointer simultaneously and now both of them will collide at starting point.
+```
+
+
 
 
