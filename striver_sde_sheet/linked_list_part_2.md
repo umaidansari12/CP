@@ -442,6 +442,8 @@ Approach : First think of this problem in much smaller terms , how about if we w
 
 Code :
 
+# Recursive Version - starts merging from the last node until all the recursive calls starting from the first node are over.
+
 Node* merge(Node* a, Node* b) {
 	Node* dummy_head = new Node(0);
 	Node* head = dummy_head;
@@ -485,6 +487,57 @@ Node* flattenLinkedList(Node* head)
 
 Time Complexity : O(N) -> no of overall nodes present
 Space Complexity : O(1) -> not including recursion stack space
+
+# Iterative Version - starts merging from the front till last node reached
+
+Node* merge(Node* a,Node* b){
+	Node* dummy_head = new Node(0);
+	Node* head = dummy_head;
+	
+	while(a!=NULL and b!=NULL){
+		if(a->data<b->data){
+			dummy_head->child = a;
+			dummy_head = dummy_head->child;
+			a=a->child;
+		}
+		else{
+			dummy_head->child = b;
+			dummy_head = dummy_head->child;
+			b=b->child;
+		}
+	}
+	
+	if(a){
+		dummy_head->child = a;
+	}
+	else if(b){
+		dummy_head->child = b;
+	}
+	
+	return head->child;
+}
+
+Node* flattenLinkedList(Node* head) 
+{
+	// Write your code here
+	if(head==NULL or head->next==NULL){
+		return head;
+	}
+	
+	Node* a = head;
+	Node* answer = NULL;
+	while(a){
+		answer = merge(answer,a);
+		a=a->next;
+	}
+		
+	return answer;
+}
+
+
+Time Complexity : O(N) -> no of overall nodes present
+Space Complexity : O(1) -> not including recursion stack space
+
 
 
 
