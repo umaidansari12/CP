@@ -373,8 +373,122 @@ Space Complexity : O(N)
 # Optimal
 
 Approach : The approach is using fast and slow pointer and we will use 2 steps , first is to detect the cycle , we will move fast pointer by 2 steps and slow pointer by only 1 step and move both of them simultaneously and we can see if cycle exists then both of them will collide at some timw with fast pointer taking some turns as it was moving 2 times faster than the slow point. Now if the cycle exists we will reset fast pointer to head and move fast and slow pointer simultaneously and now both of them will collide at starting point.
+
+Intuition : 
+L1 -> distance from head of the list to starting point of the lopp
+L2 -> distance from starting point of the loop to the collision point 
+
+L1+L2 = distance travelled by the slow pointer (covered the head->starting point then starting point->collision point)
+
+nC -> n number of turns taken by the fast pointer
+
+L1+L2+nC = distance travelled by the fast pointer while moving simultaneously with the slow pointer
+
+we know that fast pointer has travelled twice of the slow pointer , therefore
+
+2*s = f
+2* (L1+L2) = L1+L2+nC
+
+2L1 + 2L2 = L1+L2+nC
+L1+L2 = nC
+L1 = nC-L2
+
+We just need to travel L1 distance and we will be able to reach the starting point of the loop by resetting fast pointer to head and then moving both the pointer simultaneously.
+
+Code : 
+
+Node *firstNode(Node *head)
+{
+	//    Write your code here.
+	Node* fast = head;
+	Node* slow = head;
+	
+	while(fast and fast->next){
+		fast=fast->next->next;
+		slow=slow->next;
+		if(fast==slow){
+			fast=head;
+			while(fast!=slow){
+				slow=slow->next;
+				fast=fast->next;
+			}
+			return slow;
+		}
+	}
+	
+	return NULL;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(1)
+
 ```
 
+* ## Flattening of a Linked List
+```
+Problem Statement: Given a Linked List of size N, where every node represents a sub-linked-list and contains two pointers:
+
+(i) a next pointer to the next node,
+
+(ii) a bottom pointer to a linked list where this node is head.
+
+Each of the sub-linked-list is in sorted order.
+
+Flatten the Link List such that all the nodes appear in a single level while maintaining the sorted order. 
+
+Note: The flattened list will be printed using the bottom pointer instead of the next pointer.
+
+Approach : First think of this problem in much smaller terms , how about if we were given only 2 linked list then we just need to merge them and return the head as the answer , so here we are given ~n lists pointed by next pointer so we need to merge 2 of them everytime and return a single linked list as answer.We can either start merging from last or we can merge the list from the beginning.head->next will always be NULL as we are creating a new object of dummy head which will not contains those pointers.
+
+Code :
+
+Node* merge(Node* a, Node* b) {
+	Node* dummy_head = new Node(0);
+	Node* head = dummy_head;
+
+	while (a != NULL and b != NULL) {
+		if (a->data < b->data) {
+			dummy_head->child = a;
+			dummy_head = dummy_head->child;
+			a = a->child;
+		}
+		else {
+			dummy_head->child = b;
+			dummy_head = dummy_head->child;
+			b = b->child;
+		}
+	}
+
+	if (a) {
+		dummy_head->child = a;
+	}
+	else if (b) {
+		dummy_head->child = b;
+	}
+
+	return head->child;
+}
+
+Node* flattenLinkedList(Node* head)
+{
+	// Write your code here
+	if (head == NULL or head->next == NULL) {
+		return head;
+	}
+
+	head->next = flattenLinkedList(head->next);
+
+	head = merge(head, head->next);
+
+	return head;
+}
+
+Time Complexity : O(N) -> no of overall nodes present
+Space Complexity : O(1) -> not including recursion stack space
+
+
+
+```
 
 
 
