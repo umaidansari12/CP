@@ -537,10 +537,6 @@ Node* flattenLinkedList(Node* head)
 
 Time Complexity : O(N) -> no of overall nodes present
 Space Complexity : O(1) -> not including recursion stack space
-
-
-
-
 ```
 
 
