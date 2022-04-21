@@ -123,6 +123,47 @@ public:
     }
 };
 
+Node *addTwoNumbers(Node *head1, Node *head2)
+{
+    // Write your code here.
+    Node* ans = NULL;
+    Node* prev = NULL;
+
+    if (!head1)
+        return head2;
+    if (!head2)
+        return head1;
+
+    int carry = 0;
+
+    while ((head1 or head2) or carry) {
+
+        int a = (head1) ? head1->data : 0;
+        int b = (head2) ? head2->data : 0;
+
+        int sum = (carry + a + b);
+        carry = (sum) / 10;
+        sum %= 10;
+
+        if (ans == NULL) {
+            ans = new Node(sum);
+            prev = ans;
+        }
+        else {
+            prev->next = new Node(sum);
+            prev = prev->next;
+        }
+        head1 = (head1) ? head1->next : NULL;
+        head2 = (head2) ? head2->next : NULL;
+    }
+
+//     if(carry){
+//         prev->next = new Node(carry);
+//     }
+
+    return ans;
+}
+
 
 // { Driver Code Starts.
 
