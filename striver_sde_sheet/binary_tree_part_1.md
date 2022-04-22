@@ -52,3 +52,61 @@ vector<int> inorderTraversal(TreeNode* root) {
 Time Complexity : O(N)
 Space Complexity : O(N) // Auxilliary stack space
 ```
+
+* ## Preorder Traversal of Binary Tree
+
+```
+Problem Statement: Given a binary tree print the preorder traversal of binary tree.
+
+# Recursive Version 
+
+Approach : The idea is to use recursion to first visit root node then move into left subtree and the left subtree is over move into right subtree.
+
+Code : 
+
+void preorder(TreeNode* root) {
+    if (root == NULL) {
+        return;
+    }
+    // root left right
+    cout<<(root->val)<<endl;
+    preorder(root->left);
+    preorder(root->right);
+}
+
+Time Complexity : O(N)
+Space Complexity : O(N) // recursive stack space
+
+# Iterative Version
+
+Approach : The idea is to simulate the recursion using extra stack space so we will push the current node into the stack until it doesn't becomes NULL , also printing the current node and as it becomes null we need to take out the last element in stack and move to its right subtree.
+
+Code :
+
+vector<int> preorderTraversal(TreeNode* root) {
+    stack<TreeNode*> recursive_stack;
+    vector<int> answer;
+    while(true){
+        if(root!=NULL){
+            answer.push_back(root->val);
+            recursive_stack.push(root);
+            root = root->left;
+        }
+        else{
+            if(recursive_stack.empty()){
+                break;
+            }
+            
+            root = recursive_stack.top();
+            recursive_stack.pop();
+            
+            root = root->right;
+            
+        }
+    }
+    return answer;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(N) // auxilliary stack space
+```
