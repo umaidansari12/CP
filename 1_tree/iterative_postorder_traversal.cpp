@@ -38,6 +38,8 @@ public:
     }
 };
 
+//Using 1 stack
+
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
