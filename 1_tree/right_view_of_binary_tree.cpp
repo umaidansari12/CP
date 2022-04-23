@@ -179,3 +179,63 @@ int main() {
 }
 
 // } Driver Code Ends
+
+class Solution
+{
+public:
+    //Function to return list containing elements of right view of binary tree.
+    vector<int> rightView(Node *root)
+    {
+        // Your Code here
+        vector<int> rightView;
+        if (root == NULL) {
+            return rightView;
+        }
+
+        queue<Node*> bfs;
+        bfs.push(root);
+        while (!bfs.empty()) {
+            int queue_size = bfs.size();
+            for (int size = 0; size < queue_size; size++) {
+                Node* curr_element = bfs.front();
+                bfs.pop();
+
+                if (size == queue_size - 1) {
+                    rightView.push_back(curr_element->data);
+                }
+
+                if (curr_element->left)
+                    bfs.push(curr_element->left);
+                if (curr_element->right)
+                    bfs.push(curr_element->right);
+            }
+        }
+        return rightView;
+    }
+};
+
+class Solution
+{
+public:
+    //Function to return list containing elements of right view of binary tree.
+    void rightViewHelper(Node *root, vector<int> &rightView, int level, int &maxLevel) {
+        if (root == NULL)
+            return;
+
+        if (level > maxLevel) {
+            rightView.push_back(root->data);
+            maxLevel = max(level, maxLevel);
+        }
+
+        rightViewHelper(root->right, rightView, level + 1, maxLevel);
+        rightViewHelper(root->left, rightView, level + 1, maxLevel);
+    }
+    vector<int> rightView(Node *root)
+    {
+        // Your Code here
+        vector<int> right_view;
+        int level = 0, maxLevel = -1;
+        rightViewHelper(root, right_view, level, maxLevel);
+        return right_view;
+    }
+};
