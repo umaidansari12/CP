@@ -270,3 +270,55 @@ vector<int> leftView(Node *root)
 	}
 	return res;
 }
+
+
+vector<int> getLeftView(TreeNode<int> *root)
+{
+	//    Write your code here
+	vector<int> leftView;
+	if (root == NULL) {
+		return leftView;
+	}
+
+	queue<TreeNode<int>*> bfs;
+	bfs.push(root);
+	while (!bfs.empty()) {
+		int queue_size = bfs.size();
+		for (int size = 0; size < queue_size; size++) {
+			TreeNode<int>* curr_element = bfs.front();
+			bfs.pop();
+
+			if (size == 0) {
+				leftView.push_back(curr_element->data);
+			}
+
+			if (curr_element->left)
+				bfs.push(curr_element->left);
+			if (curr_element->right)
+				bfs.push(curr_element->right);
+		}
+	}
+	return leftView;
+}
+
+void leftViewHelper(TreeNode<int> *root, vector<int> &leftView, int level, int &maxLevel) {
+	if (root == NULL)
+		return;
+
+	if (level > maxLevel) {
+		leftView.push_back(root->data);
+		maxLevel = max(level, maxLevel);
+	}
+
+	leftViewHelper(root->left, leftView, level + 1, maxLevel);
+	leftViewHelper(root->right, leftView, level + 1, maxLevel);
+}
+
+vector<int> getLeftView(TreeNode<int> *root)
+{
+	//    Write your code here
+	vector<int> leftView;
+	int level = 0, maxLevel = -1;
+	leftViewHelper(root, leftView, level, maxLevel);
+	return leftView;
+}
