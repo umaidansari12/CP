@@ -185,3 +185,101 @@ vector <int> bottomView(Node *root) {
     }
     return r;
 }
+
+class Solution {
+public:
+    //      1
+    //   /    \ 
+    //  4     2
+    // /     /
+    // 5    3
+    //  \ 
+    //    6
+    //     \
+    //      7
+    // recursive version fails for this case because first it will go down in left subtree and line 0th when we go down we will the bottom most node will be
+    // 7 but as we go down the right subtree it will change to 3 because it is also lying on 0th line but according to question this will be incorrect because this is not at the bottom most level but since our logic is to include last node on any line
+    // so we need to make changes and introduce height into our logic as well
+    // so we will use a pair in map which contains height as well so we will compare if the current row is greater than the encountered row then only we will update the answer otherwise leave it as it is
+    void bottomViewHelper(Node *root, map<int, int> &level, int current_level) {
+        if (root == NULL)
+            return;
+
+        level[current_level] = root->data;
+        bottomViewHelper(root->left, level, current_level - 1);
+        bottomViewHelper(root->right, level, current_level + 1);
+    }
+
+    vector <int> bottomView(Node *root) {
+        // Your Code Here
+        map<int, int> level;
+        int current_level = 0;
+        bottomViewHelper(root, level, current_level);
+        vector<int> bottom_view;
+        for (auto lvl : level) {
+            bottom_view.push_back(lvl.second);
+        }
+        return bottom_view;
+    }
+
+    void bottomViewHelper(Node *root, map<int, pair<int, int>> &level, int current_level, int current_height) {
+        if (root == NULL)
+            return;
+        // if height of current node is greater than previously stored then only update the answer to encounter the bottom most node
+        if (current_height >= level[current_level].second)
+            level[current_level] = {root->data, current_height};
+        bottomViewHelper(root->left, level, current_level - 1, current_height + 1);
+        bottomViewHelper(root->right, level, current_level + 1, current_height + 1);
+    }
+
+    vector<int> bottomView(Node * root) {
+        // map will be <line,<node value,height>>
+        // similar to <x-axis,<node value,y-axis>>
+        // /Structur of map: colum_no={data,rownumber}
+        map<int, pair<int, int>> level;
+        int current_level = 0, current_height = 0;
+        bottomViewHelper(root, level, current_level, current_height);
+        vector<int> bottom_view;
+        for (auto lvl : level) {
+            bottom_view.push_back(lvl.second.first);
+        }
+        return bottom_view;
+    }
+
+};
+
+class Solution {
+public:
+    vector <int> bottomView(Node *root) {
+        // Your Code Here
+        vector<int> bottom_view;
+        if (root == NULL)
+            return bottom_view;
+        map<int, int> level;
+        queue<pair<Node*, int>> bfs;
+
+        bfs.push({root, 0});
+
+        while (!bfs.empty()) {
+            Node* current_node = bfs.front().first;
+            int hd = bfs.front().second;
+
+            bfs.pop();
+
+            level[hd] = current_node->data;
+
+            if (current_node->left) {
+                bfs.push({current_node->left, hd - 1});
+            }
+            if (current_node->right) {
+                bfs.push({current_node->right, hd + 1});
+            }
+        }
+
+        for (auto lvl : level) {
+            bottom_view.push_back(lvl.second);
+        }
+
+        return bottom_view;
+    }
+};
