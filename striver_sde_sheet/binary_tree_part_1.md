@@ -588,3 +588,345 @@ vector<int> bottomView(Node * root) {
 Time Complexity : O(NlogN) -> as used map also and insertion in map takes logn times 
 Space Complexity : O(N) --> recursive stack space
 ```
+
+* ## Top view of a Binary Tree
+
+```
+Problem Statement: Given below is a binary tree. The task is to print the top view of the binary tree. The top view of a binary tree is the set of nodes visible when the tree is viewed from the top.
+
+Approach : Use BFS Traversal to move down every x-axis(line/horizontal distance) and check if the value at this level is present or not , if not then this is the top most node seen on that line , append it to our answer
+
+Code :
+
+vector<int> getTopView(TreeNode<int> *root) {
+    // Write your code here.
+	vector<int> topView;
+	if(root==NULL)
+		return topView;
+	
+	queue<pair<TreeNode<int> *,int>> bfs;
+	bfs.push({root,0});
+	
+	map<int,int> level;
+	
+	while(!bfs.empty()){
+		TreeNode<int> * current_element = bfs.front().first;
+		int hd = bfs.front().second;
+		bfs.pop();
+		
+		if(level.find(hd)==level.end()){
+			level[hd] = current_element->val;
+		}
+		
+		if(current_element->left){
+			bfs.push({current_element->left,hd-1});
+		}
+		if(current_element->right){
+			bfs.push({current_element->right,hd+1});
+		}
+	}
+	
+	for(auto lvl:level){
+		topView.push_back(lvl.second);
+	}
+	
+	return topView;
+}
+Time Complexity : O(NlogN) -> as used map also and insertion in map takes logn times 
+Space Complexity : O(N)
+
+# Recursive Approach
+
+Approach : The idea here is to do the traversal in a recursive way but what we need to do is to introduce height into our current logic because we are traversing the left subtree first we encounter the node which are on some line that is not encountered yet so we store it in our answer but as we move to right subtree if we have found a node which are on the similar line but least height so practically that should be included into our answer.
+
+Code :
+
+void topViewHelper(TreeNode<int> *root, map<int, pair<int, int>> &level, int current_level, int current_height) {
+	if (root == NULL)
+		return;
+
+
+	if (level.find(current_level)==level.end() or level[current_level].second >= current_height) {
+		level[current_level] = {root->val, current_height};
+	}
+
+	topViewHelper(root->left, level, current_level - 1, current_height + 1);
+	topViewHelper(root->right, level, current_level + 1, current_height + 1);
+}
+
+vector<int> getTopView(TreeNode<int> *root) {
+	// Write your code here.
+	vector<int> topView;
+	if (root == NULL)
+		return topView;
+
+	// structure => line,<node value,height>
+	// x-axis,<node value,y-axis>
+	map<int, pair<int, int>> level;
+
+	topViewHelper(root, level, 0, 0);
+
+	for (auto lvl : level) {
+		topView.push_back(lvl.second.first);
+	}
+
+	return topView;
+}
+
+Time Complexity : O(NlogN)
+Space Complexity : O(N)
+```
+
+* ## Preorder Inorder Postorder Traversals in One Traversal
+
+```
+Problem Statement: Preorder Inorder Postorder Traversals in One Traversal. Write a program to print Preorder, Inorder, and Postorder traversal of the tree in a single traversal.
+
+Approach : use stack data structure and at every level you need to store pair<Node,int> int is the number that levels the number of time the current node is being visited
+
+    if num == 1: preorder num++ push left (because of root left right so as root is processed it's time to process left)
+    if num == 2: inorder num++ push right (becuase of left root right) so as root is processed it's time to process right)
+    if num == 3: postorder (because of left right root as left and right subtree is processed just push root node into your answer)
+
+Code :
+
+
+vector<vector<int>> getTreeTraversal(BinaryTreeNode<int> *root){
+    // Write your code here.
+	vector<vector<int>> answer;	
+	if(root==NULL)
+		return answer;
+	vector<int> inorder,preorder,postorder;
+	stack<pair<BinaryTreeNode<int>*,int>> traverse;
+	traverse.push({root,1});//initially we will push root with the number 1 as we are going to visit it first time
+	
+	while(!traverse.empty()){
+		BinaryTreeNode<int>* current_element = traverse.top().first;
+		int number = traverse.top().second;
+		
+		if(number ==1){
+			preorder.push_back(current_element->data);
+			traverse.top().second = number + 1;
+			if(current_element->left)
+				traverse.push({current_element->left,1});
+		}
+		else if(number ==2){
+			inorder.push_back(current_element->data);
+			traverse.top().second = number + 1;
+			if(current_element->right)
+				traverse.push({current_element->right,1});
+		}
+		else if(number == 3){
+			postorder.push_back(current_element->data);
+			traverse.pop();
+		}
+	}
+	
+	return {inorder,preorder,postorder};
+	
+}
+
+Time Complexity : O(3N)
+Space Complexity : O(3N)
+```
+
+* ## Vertical Order Traversal of Binary Tree
+
+```
+Problem Statement: Vertical Order Traversal Of A Binary Tree. Write a program for Vertical Order Traversal order of a Binary Tree.
+
+# BFS Version
+
+Approach : The idea is to use queue of {root,x,y} and do the traversal and while traversing maintain a ds that will store the nodes in order.
+
+Code :
+
+vector<int> verticalOrderTraversal(TreeNode<int> *root)
+{
+	//    Write your code here.
+	vector<int> verticalOrder;
+
+	if (root == NULL)
+		return verticalOrder;
+
+	map<int, map<int, vector<int>>> ds;
+
+	queue<pair<TreeNode<int>*, pair<int, int>>> bfs;
+
+	bfs.push({root, {0, 0}});
+	while (!bfs.empty()) {
+		TreeNode<int>* curr = bfs.front().first;
+		int x = bfs.front().second.first;
+		int y = bfs.front().second.second;
+
+		ds[x][y].push_back(curr->data);
+
+		bfs.pop();
+		if (curr->left) {
+			bfs.push({curr->left, {x - 1, y + 1}});
+		}
+		if (curr->right) {
+			bfs.push({curr->right, {x + 1, y + 1}});
+		}
+	}
+
+	for (auto x : ds) {
+		for (auto y : x.second)
+			for (auto z : y.second)
+				verticalOrder.push_back(z);
+	}
+
+	return verticalOrder;
+}
+
+Time Complexity : O(NlogN)
+Space Complexity : O(N)
+
+# DFS Version
+
+Approach : use any of the traversal and use a ds to store the nodes in order and whenever we move to left change x to x-1 and in right change y to y+1 and all the time y will be increasing.
+
+Code :
+
+void verticalOrderHelper(TreeNode<int>* root, map<int, map<int, vector<int>>> &ds, int x, int y) {
+	if (root == NULL)
+		return;
+	ds[x][y].push_back(root->data);
+	verticalOrderHelper(root->left, ds, x - 1, y + 1);
+	verticalOrderHelper(root->right, ds, x + 1, y + 1);
+}
+
+vector<int> verticalOrderTraversal(TreeNode<int> *root)
+{
+	//    Write your code here.
+	vector<int> verticalOrder;
+
+	if (root == NULL)
+		return verticalOrder;
+
+	map<int, map<int, vector<int>>> ds;
+
+	verticalOrderHelper(root, ds, 0, 0);
+
+	for (auto x : ds) {
+		for (auto y : x.second)
+			for (auto z : y.second)
+				verticalOrder.push_back(z);
+	}
+
+	return verticalOrder;
+}
+
+
+Time Complexity : O(NlogN)
+Space Complexity : O(N)
+```
+
+* ## Print Root to Node Path in a Binary Tree
+
+
+```
+Problem Statement: Print Root to Node Path In A Binary Tree. Write a program to print path from root to a given node in a binary tree.
+
+
+Note : If the reference of node to found is given and introduced a parent pointer then we will just start from the root node and move to its parent pointer recursively and get the path.
+
+Approach : The idea is to find the node into left and right subtree and ifto found include that node in path otherwise remove the node from path and return false.
+
+Code :
+
+bool helper(TreeNode* root, int node, vector<int> &path) {
+    // if the root is null then means node not found return false
+    if (root == NULL) {
+        return false;
+    }
+
+    // first push the root node value into ds
+
+    path.push_back(root->val);
+
+    // if the root node's value is equal to the value we are searching then return true indicating the node has been found
+    if (root->val == node) {
+        return true;
+    }
+
+    // if above is not the case then we go to both the subtree's of the current root node and check if it can be found in any of the subtree, if yes return true
+    if (helper(root->left, node, path) or helper(root->right, node, path))
+        return true;
+    // otherwise indicating that the element has not been found the subtree of current root node remove this node from path and return false
+    path.pop_back();
+    return false;
+
+
+}
+vector<int> Solution::solve(TreeNode* A, int B) {
+    vector<int> path;
+    if (A == NULL)
+        return path;
+    // do the inorder traversal to get the path
+    helper(A, B, path);
+
+    return path;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(N)
+```
+
+* ## Maximum Width of a Binary Tree
+
+```
+Problem Statement: Write a program to find the Maximum Width of A Binary Tree.
+
+Note : 
+- In problem you just need not to count the maximum number of nodes at the level.
+- Here width means the number of nodes in a level between any two nodes.(We are not considering the nodes which don't have left as well as right subtree)
+
+Approach : The idea is to use level order traversal as the width is dependent on level and width on every level is equal to the number of nodes present between the starting and ending node on the level (we will include imaginary node as well if it's parent contain either of the subtree). So to efficiently count the number of nodes at every level we will mark every level with some index so that we just need to do (index of end node - index of start node)+1 to get the width of level. The intuition of this approach comes from segment trees and this approach of marking index with 0 based indexing (where left root will 2*i+1 and right root will be 2*i+2) or 1 based indexing (where left root will be 2*i and right root will be 2*i+1) fails in case of skewed tree because the number of nodes can be as large as 10^5 and doing 2*10^5 can give overflow error and to get rid of this overflow error either we can use unsigned long long int or we can just take out the minimum from every level and while marking index to next level we need to use index = (index - min) so that at next level we start with minimum of previous level and at every 1 can not be minimum as in take the case where at root node we don't have left subtree but has right subtree so at that very moment minimum will be 2.
+Edit : We need not to subtract minimum index but we need to subtract maximum index so that at every level we can get minimum.
+
+Code :
+
+int widthOfBinaryTree(TreeNode* root) {
+    if(root==NULL)
+        return 0;
+    // structure of queue is node,index
+    queue<pair<TreeNode*,unsigned long long int>> bfs;
+    bfs.push({root,0});
+    
+    int ans = 0;
+    
+    while(!bfs.empty()){
+        int size = bfs.size();
+        // int _min = bfs.front().second; // at every level we will have the minimum in front to make the index staring from 0
+        int _max_index = bfs.back().second;
+        int start_index,end_index;
+        
+        for(int i=0;i<size;i++){
+            
+            int curr_index = bfs.front().second - _max_index;
+            
+            TreeNode* curr_element = bfs.front().first;
+            bfs.pop();
+            
+            if(i==0)
+                start_index = curr_index;
+            if(i==size-1)
+                end_index = curr_index;
+            
+            if(curr_element->left){
+                bfs.push({curr_element->left,2*curr_index+1});
+            }
+            if(curr_element->right){
+                bfs.push({curr_element->right,2*curr_index+2});
+            }   
+        }
+        ans = max(ans,end_index-start_index+1);
+    }
+    return ans;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(N)
+
+```
