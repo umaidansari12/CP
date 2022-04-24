@@ -141,3 +141,44 @@ int main() {
 }
 // } Driver Code Ends
 
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        // structure of queue is node,index
+        queue<pair<TreeNode*, unsigned long long int>> bfs;
+        bfs.push({root, 0});
+
+        int ans = 0;
+
+        while (!bfs.empty()) {
+            int size = bfs.size();
+            // int _min = bfs.front().second; // at every level we will have the minimum in front to make the index staring from 0
+            int _max_index = bfs.back().second;
+            int start_index, end_index;
+
+            for (int i = 0; i < size; i++) {
+
+                int curr_index = bfs.front().second - _max_index;
+
+                TreeNode* curr_element = bfs.front().first;
+                bfs.pop();
+
+                if (i == 0)
+                    start_index = curr_index;
+                if (i == size - 1)
+                    end_index = curr_index;
+
+                if (curr_element->left) {
+                    bfs.push({curr_element->left, 2 * curr_index + 1});
+                }
+                if (curr_element->right) {
+                    bfs.push({curr_element->right, 2 * curr_index + 2});
+                }
+            }
+            ans = max(ans, end_index - start_index + 1);
+        }
+        return ans;
+    }
+};
