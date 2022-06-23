@@ -247,3 +247,62 @@ int main() {
     return 0;
 }
 // } Driver Code Ends
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        // if root is null or root's value is equal to x or root's value is equal to y return the root
+        if (root == NULL or root->val == p->val or root->val == q->val) {
+            return root;
+        }
+
+        // recur for left as well as right subtree for the current node
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+        // if leftsubtree is null that means we have'nt found x and y in left subtree so it must lie in right subtree
+        if (left == NULL)
+            return right;
+        // if rightsubtree is null that means we have'nt found x and y in right subtree so it must lie in left subtree
+        else if (right == NULL)
+            return left;
+        // if both the subtrees are not null that means we have found x and y in left and right subtrees so the root is the lowest common ancestor
+        else {
+            return root;
+        }
+
+    }
+};
+
+int lowestCommonAncestor(TreeNode<int> *root, int x, int y)
+{
+    //    Write your code here
+    if (root == NULL) {
+        return -1;
+    }
+    if (root->data == x or root->data == y) {
+        return root->data;
+    }
+
+    int left = lowestCommonAncestor(root->left, x, y);
+    int right = lowestCommonAncestor(root->right, x, y);
+
+    if (left == -1) {
+        return right;
+    }
+    else if (right == -1) {
+        return left;
+    }
+    else {
+        return root->data;
+    }
+}

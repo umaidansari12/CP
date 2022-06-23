@@ -201,3 +201,168 @@ Time Complexity : O(N)
 Space Complexity : O(H)
 
 ```
+
+* ## Check if the Binary Tree is Balanced Binary Tree
+
+```
+Problem Statement: Check whether the given Binary Tree is a Balanced Binary Tree or not. A binary tree is balanced if, for all nodes in the tree, the difference between left and right subtree height is not more than 1.
+
+# Brute
+
+Approach : the empty tree is considered as height balanced which forms the base case and for every root node we calculate the height of left subtree of the root and right subtree of the root and then recursively check if the left subtree as well as right subtree is balanced or not.
+
+Code :
+
+int height(BinaryTreeNode<int> *root) {
+	if (root == NULL) {
+		return 0;
+	}
+
+	int leftHeight = height(root->left);
+	int rightHeight = height(root->right);
+
+	return 1 + max(leftHeight, rightHeight);
+}
+
+bool isBalancedBT(BinaryTreeNode<int>* root) {
+	// Write your code here.
+	if (root == NULL) {
+		return true;
+	}
+
+	int leftHeight = height(root->left);
+	int rightHeight = height(root->right);
+
+	if (abs(leftHeight - rightHeight) <= 1 and isBalancedBT(root->left) and isBalancedBT(root->right))
+		return true;
+
+	return false;
+}
+
+Time Complexity : O(N^2)
+Space Complexity : O(H)
+
+# Optimal 
+
+Approach : We need to reduce extra N time we are taking to calculate the height at every root node , for this we need to use postorder traversal and ca1culate the height of the tree simultaneously as we move down the line
+
+Code : 
+
+int isBalancedBTHelper(BinaryTreeNode<int>* root){
+	if(root==NULL){
+		return 0;
+	}
+	
+	int leftHeight = isBalancedBTHelper(root->left);
+	int rightHeight = isBalancedBTHelper(root->right);
+	
+	if(leftHeight==-1 or rightHeight==-1)
+		return -1;
+	
+	
+	if(abs(leftHeight-rightHeight)>1){
+		return -1;
+	}
+	
+	return 1+max(leftHeight,rightHeight);
+}
+
+bool isBalancedBT(BinaryTreeNode<int>* root) {
+    // Write your code here.
+	return isBalancedBTHelper(root)!=-1;
+}
+
+pair<int, bool> isBalancedBTHelper(BinaryTreeNode<int>* root) {
+	if (root == NULL) {
+		return {0, true};
+	}
+
+	pair<int, bool> leftHeight = isBalancedBTHelper(root->left);
+	pair<int, bool> rightHeight = isBalancedBTHelper(root->right);
+
+	if (abs(leftHeight.first - rightHeight.first) <= 1 and leftHeight.second and rightHeight.second) {
+		return {1 + max(leftHeight.first, rightHeight.first), true};
+	}
+
+	return {1 + max(leftHeight.first, rightHeight.first), false};
+}
+
+bool isBalancedBT(BinaryTreeNode<int>* root) {
+	// Write your code here.
+	return isBalancedBTHelper(root).second;
+}
+
+Time Complexity : O(N)
+Space Complexity : O(H)
+```
+
+* ## Lowest Common Ancestor for two given Nodes
+
+```
+# Brute
+
+Approach : Find path of x from root node till x and path of y from root node till y and store in some data structure , now as lowest common ancestor is the deepest node that is matching so we will traverse the path ds to check for matching and break at the last matching point
+
+Code :
+
+bool findPath(Node* root, int n, vector<Node*> &r) {
+    if (!root)
+        return false;
+    r.push_back(root);
+    if (root->data == n)
+        return true;
+    if (findPath(root->left, n, r) or findPath(root->right, n, r))
+        return true;
+    r.pop_back();
+    return false;
+
+}
+Node* lca(Node* root , int n1 , int n2 )
+{
+    //Your code here
+    vector<Node*> p, q;
+    if (!findPath(root, n1, p) or !findPath(root, n2, q))
+        return NULL;
+    Node* ans = NULL;
+    for (int i = 0; i < min(p.size(), q.size()); i++) {
+        if (p[i]->data != q[i]->data)
+        {
+            break;
+        }
+        else
+            ans = p[i];
+    }
+    return ans;
+}
+
+Time Complexity : O(2N)
+Space Complexity : O(2N)
+
+# Optimal
+
+Approach : We will use a single traversal technique to find both the nodes with value x and y , for every root node we will recur for it's left as well right subtree to find the x and y nodes if tne left subtree returns null that means we have'nt found x and y in left subtree of root node , so we will return right subtree which signifies that x and y is present in right subtree and if both the left and right subtree is not null that means x and y is found under the root node so we will return root as our answer.
+
+Code :
+
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    // if root is null or root's value is equal to x or root's value is equal to y return the root
+    if (root == NULL or root->val == p->val or root->val == q->val) {
+        return root;
+    }
+
+    // recur for left as well as right subtree for the current node
+    TreeNode* left = lowestCommonAncestor(root->left, p, q);
+    TreeNode* right = lowestCommonAncestor(root->right, p, q);
+
+    // if leftsubtree is null that means we have'nt found x and y in left subtree so it must lie in right subtree
+    if (left == NULL)
+        return right;
+    // if rightsubtree is null that means we have'nt found x and y in right subtree so it must lie in left subtree
+    else if (right == NULL)
+        return left;
+    // if both the subtrees are not null that means we have found x and y in left and right subtrees so the root is the lowest common ancestor
+    else {
+        return root;
+    }
+}
+```
