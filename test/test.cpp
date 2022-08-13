@@ -12,6 +12,8 @@ int main() {
 	cin >> t;
 	while (t--)
 	{
-
+		string s;
+		cin>>s;
+		cout << "Hello, " << s << endl;
 	}
 }
