@@ -14,3 +14,18 @@ public:
         return farthest >= nums.size() - 1;
     }
 };
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int farthest = 0, _size = nums.size();
+        for (int i = 0; i < _size; i++) {
+            if (farthest < i)
+                return false;
+            if (farthest == _size)
+                return true;
+            farthest = max(farthest, i + nums[i]);
+        }
+        return true;
+    }
+};

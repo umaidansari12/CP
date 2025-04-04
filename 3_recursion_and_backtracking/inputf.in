@@ -1,11 +1,26 @@
-2
-5 3 1
-0 0 0
-1 1 0
-0 0 0
-0 1 1
-0 0 0
-3 3 1
-0 1 1
-1 1 1
-1 1 0
+5
+3 3
+C A A
+A A A
+B C D
+AAB
+3 4
+A B C E 
+S F C S
+A D E E
+ABCCED
+3 4
+A B C E 
+S F C S
+A D E E
+SEE
+3 4
+A B C E 
+S F C S
+A D E E
+ABCB
+3 4
+A B C E
+S F E S
+A D E E
+ABCESEEEFS

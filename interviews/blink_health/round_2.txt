@@ -1,0 +1,57 @@
+This is just a simple shared plaintext pad, with no execution capabilities.
+
+When you know what language you'd like to use for your interview,
+simply choose it from the dots menu on the tab, or add a new language
+tab using the Languages button on the left.
+
+You can also change the default language your pads are created with
+in your account settings: https://app.coderpad.io/settings
+
+Enjoy your interview!
+
+Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: Any triplet where i < j < k is valid.
+Example 2:
+
+Input: nums = [5,4,3,2,1]
+Output: false
+Explanation: No triplet exists.
+Example 3:
+
+Input: nums = [2,1,5,0,4,6]
+Output: true
+Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+
+
+Given a circular array arr[] of N integers such that the last element of the given array is adjacent to the first element of the array, the task is to print the Next Greater Element in this circular array. Elements for which no greater element exist, consider the next greater element as “-1”
+
+
+Input: arr[] = {5, 6, 7} 
+Output: {6, 7, -1} 
+Explanation: 
+Next Greater Element for 5 is 6, for 6 is 7, and for 7 is -1 as we don’t have any element greater than itself so its -1.
+
+Input: arr[] = {4, -2, 5, 8} 
+Output: {5, 5, 8, -1} 
+Explanation: 
+Next Greater Element for 4 is 5, for -2 its 5, for 5 is 8, and for 8 is -1 as we don’t have any element greater than itself so its -1, and for 3 its 4. 
+
+
+Example 1:
+
+Input: nums = [1,2,1]
+Output: [2,-1,2]
+Explanation: The first 1's next greater number is 2; 
+The number 2 can't find next greater number. 
+The second 1's next greater number needs to search circularly, which is also 2.
+Example 2:
+
+Input: nums = [1,2,3,4,3]
+Output: [2,3,4,-1,4]

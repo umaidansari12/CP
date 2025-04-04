@@ -1,0 +1,49 @@
+- a contiguos / non-contiguos sequence which follows the order
+- arr -> [3,1,2]
+	- {}
+	- 3
+	- 1
+	- 2
+	- 3,1
+	- 1,2
+	- 3,2
+	- 3,1,2 
+	- 8 subsequence of 3 size array - power set algo used to get all subsequences
+- a subarray can be subsequence
+- print only one subsequence whose sum is k
+	- bool f()
+	{
+		base case
+			return true -> condition satisfies
+			return false -> condition not satisfies
+
+		// pick case
+		if(f() == true) // got 1 answer no need to do further recursion calls
+			return true;
+		// not pick case
+		if(f() == true)
+			return true;
+		return false; // not found any answer return false
+	}
+
+- count subsequence whose sum is k
+
+- int f()
+	{
+		base case
+			return 1 -> condition satisfies
+			return 0 -> condition not satisfies
+
+		// pick case             |	for n recursion calls
+		l = f()					 |	s = 0	
+		// not pick case	     | 	for(i=i->n)
+		r = f()					 |  s+=f()
+
+		return l+r; // not found any answer return false		| return s;
+	}
+
+- TC - 2^n * n
+  _ _ _ for every index you've 2 options so total options will be 2^n, and n is required to print the array
+  SC - O(n) - recursion tree/stack is atmost n level deep
+
+- 

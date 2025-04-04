@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int cnt_subarray = 0, n = nums.size(), sum = 0;
+        unordered_map<int, int> prefix_sum;
+        for (int i = 0; i < n; i++) {
+            sum += nums[i];
+            if (sum == k) {
+                cnt_subarray++;
+            }
+            if (prefix_sum.find(sum - k) != prefix_sum.end()) {
+                cnt_subarray += (prefix_sum[sum - k]);
+            }
+            prefix_sum[sum]++;
+        }
+        return cnt_subarray;
+    }
+};

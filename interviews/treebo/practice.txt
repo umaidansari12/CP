@@ -1,0 +1,27 @@
+Round 1 
+
+Programming & Data Structures (Moderate difficulty) (Ex. Find the longest substring without repeating characters)
+Implement a thread-safe singleton class in Python
+Explain deadlock and how to prevent it.
+Explain ACID properties and how databases ensure consistency
+Detailed on cache invalidation strategies
+How do you secure REST APIs?
+
+Round 2 
+
+Explain event-driven architecture in microservices.
+Design problems Ex. Design a URL Shortener, Design a Rate Limiter for an API, Design an E-commerce Order Management System
+Question around messaging brokers
+Question around Concurrency & Multithreading
+Question around query optimisation and understand how he will approach problem where performance enhancement requires.
+
+Total 5 rounds of interviews and 4 of them are technical. All technical rounds including Python questions like iterator vs generator, GIL, Memory management, List vs tuple etc. and basic CS fundamental question like indexing, SQL vs NOSQL, Process Vs thread, Docker etc.
+
+Python language questions - tuple vs lists ? Shallow vs deep copy ? Decorators ? Scaling backend questions ? GIL ? Generators ? Memory Management Problem solving - Two sum question on leetcode,
+
+One coding question to find valid string contains “(“ and “)”.
+
+Few Java basic questions and output
+
+Normal python questions. Mostly around lists and maps. Basic questions on computer vision.
+

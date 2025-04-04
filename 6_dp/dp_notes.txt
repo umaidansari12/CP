@@ -1,0 +1,39 @@
+- 2 ways dp
+	- tabulation - bottom - up -> (try to go from base case to the required answer)
+	- memoization - top - down -> (try to go from answer required to base case)
+
+- memoization (TC, SC) -> tabulation (TC, SC) -> space optimization (TC, SC)
+- memoization - means tend to store the value of subproblems in some map / table 
+- define recurrence relation
+- declare dp array - think of maximum size of problem which you'll solve and then declare the array
+- define base case
+- understand dp problems
+	- pattern
+		- count all possible ways - this is the recursive problem
+		- max, min
+		- best ways 
+- shortcut  
+	- try to represent the problems in terms of index
+	- do all possible stuffs on that index according to the problem statement - also means recursion from top to down
+	- sum of all stuffs - count all ways
+	- min of all stuffs - find min
+- recognize dp
+	- above stuffs
+	- find recurrence relation
+	- find overlapping subproblems
+
+- tricks for memoization
+	- look for the parameters changing
+	
+- if ind-1, ind-2 kind of pattern will be there, there will always be space optimization, when the choice is limited then you can use space optimized 
+
+- steps to convert memoization to tabulation
+
+	- declare the base case
+	- express all states in for loops
+	- copy the recurrence and write
+
+- space optimization tricks
+	- If there is prev row and prev col, we can space optimize it
+
+- why greedy doesn't work in every case since values are not uniform and it might increase/decrease in future and today's decision might affect future decisions as well, because of non-uniformity

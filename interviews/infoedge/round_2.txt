@@ -1,0 +1,129 @@
+requirements - 
+	- list all ratings (of a product) (just like we see it on ecom websites) (reviews with number of people reviewed it), - GET product_id query_params
+	- Retrieve a specific rating by its ID, GET rating_id query_params
+	- Create a new rating, 
+	- Update an existing rating, PUT product_id user_id updated_ratings in the body
+	- Delete a rating. DELETE rating_id
+
+- we'll a write a service that will be invoked while application initialization
+- to fetch the data every 1 hr and share to respective users
+- while True:
+	-  if time is in the multiple of 1 hr, then we can run the logic and again put on sleep for the remaining time
+	 script - 1 min
+
+Case - 
+	- If a user has not logged in, then also he can see the product and its ratings but can't rate / review the product without loggging in.
+
+- users
+
+	- User()
+		- id - (int / serial) PK
+		- name - varchar
+		- email - varchar
+		- phone_number - bigint
+		- account_created_at - timestamp
+		- logged_in_at - timestamp
+
+	- Product()
+		- id - PK - (int / serial)
+		- name - varchar
+		- description - text
+		- price - float
+		- getRatings() -> list all rating associated with the product
+
+	- Rating()
+		- id - PK - (int / serial)
+		- product_id - FK  - (int / serial)
+		- ratings_received - int (1 to 5)
+		- user_id - FK - (int / serial)
+
+requests.request(method='POST', body = {
+	"product_id" : product_id,
+	"user_id": user_id,
+	"ratings": 1-5
+})
+
+
+create_a_new_rating(product_id, user_id, rating):
+	if the user exists or not - using the user_id
+	if the products exists or not - using the product_id
+	if a user is logged in or not - 
+	body = request.body
+	body = validate the parse using models value and placing a type check
+	body = parse_body
+	body["product_id"] = 
+	body["user_id"] = 
+	body["ratings"] = 
+	insert_the_rating_into_db_in_the_ratings(product_id, user_id, ratings)
+
+/api/createRating/
+	method used - POST
+
+
+requirements - 
+	- list all ratings (of a product) (just like we see it on ecom websites) (reviews with number of people reviewed it), - GET product_id query_params
+	- Retrieve a specific rating by its ID, GET rating_id query_params
+	- Create a new rating, 
+	- Update an existing rating, PUT product_id user_id updated_ratings in the body
+	- Delete a rating. DELETE rating_id
+
+- we'll a write a service that will be invoked while application initialization
+- to fetch the data every 1 hr and share to respective users
+- while True:
+	-  if time is in the multiple of 1 hr, then we can run the logic and again put on sleep for the remaining time
+	 script - 1 min
+
+Case - 
+	- If a user has not logged in, then also he can see the product and its ratings but can't rate / review the product without loggging in.
+
+- users
+
+	- User()
+		- id - (int / serial) PK
+		- name - varchar
+		- email - varchar
+		- phone_number - bigint
+		- account_created_at - timestamp
+		- logged_in_at - timestamp
+
+	- Product()
+		- id - PK - (int / serial)
+		- name - varchar
+		- description - text
+		- price - float
+		- getRatings() -> list all rating associated with the product
+
+	- Rating()
+		- id - PK - (int / serial)
+		- product_id - FK  - (int / serial)
+		- ratings_received - int (1 to 5)
+		- user_id - FK - (int / serial)
+
+requests.request(method='POST', body = {
+	"product_id" : product_id,
+	"user_id": user_id,
+	"ratings": 1-5
+})
+
+
+create_a_new_rating(product_id, user_id, rating):
+	if the user exists or not - using the user_id
+	if the products exists or not - using the product_id
+	if a user is logged in or not - 
+	body = request.body
+	body = validate the parse using models value and placing a type check
+	body = parse_body
+	body["product_id"] = 
+	body["user_id"] = 
+	body["ratings"] = 
+	insert_the_rating_into_db_in_the_ratings(product_id, user_id, ratings)
+
+/api/createRating/
+	method used - POST
+
+
+----- 
+feedback 
+	- less experience in api building and lld
+	- was not able to explain properly as per the expectations
+	- focus more on core concepts

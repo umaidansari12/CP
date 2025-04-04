@@ -1,0 +1,147 @@
+'''
+Problem: Design a system that provides autosuggestions for a search bar. Given a list of search queries from users and a prefix string, return the top 5 most frequent queries starting with the prefix.
+
+Input:
+
+queries = ["apple", "app", "application", "apply", "apt", "bat"]
+prefix = "app"
+
+Output:
+
+[ "app", "apple", "application", "apply" ]
+
+
+'''
+
+queries = ["apple", "app", "application", "apply", "apt", "bat"]
+prefix = "app"
+
+answer = []
+
+for query in queries:
+    if(query.startswith(prefix)):
+        if(len(answer)<=5):
+            answer.append(query)
+        else:
+            break
+
+print(sorted(answer))
+        
+
+
+'''
+Problem: Design a system that provides autosuggestions for a search bar. Given a list of search queries from users and a prefix string, return the top 5 most frequent queries starting with the prefix.
+
+Input:
+
+queries = ["apple", "app", "application", "apply", "apt", "bat"]
+prefix = "app"
+
+Output:
+
+[ "app", "apple", "application", "apply" ]
+
+
+'''
+
+queries = ["apple", "app", "application", "apply", "apt", "bat"]
+prefix = "app"
+
+answer = []
+
+queries_frequency = {}
+
+N -> size of prefix
+Q -> size of query
+N*Q*len(q)
+Q
+
+
+prefix_query = ""
+
+for prefix_letter in prefix:
+    prefix_query += prefix_letter
+    for query in queries:
+        if(query.startswith(prefix_query)):
+            if(queries_frequency.get(query, 0) == 0):
+                queries_frequency[query] = 1
+            else:
+                queries_frequency[query] +=1
+
+sorted_queries_frequency = dict(sorted(queries_frequency.items(), key=lambda item: item[1], reverse=True))
+for query in sorted_queries_frequency:
+    # if()
+        
+
+
+How will you design the social media application similar to Twitter using the given requirements?
+
+part A - build such an application for a large enterprise with 100,000 active users
+
+part B - the enterprise wants to scale the application to its entire stakeholder network of 10 million active users - what are the challenges in scaling the app and how would you solve them?
+
+functional requirements - 
+- create post 
+- view post in feed
+- delete post
+- follow / unfollow
+- like a post
+- reply to a post
+- user login / logout
+- sharing a post
+
+- User
+    id = uuid
+    name = string
+    email = string
+    phone_number = bigint
+    followers = List<User>
+
+    login() 
+    logout()
+
+- Post
+    id = uuid
+    description = text
+    attachments = [urls]
+    created_by = uuid - id of user who has created the post
+    likes = List<Like>
+    
+    create_post()
+    view_post(post_id)
+    view_post()
+    delete_post(post_id)
+
+- Like
+    id = uuid 
+    liked_by = uuid of the user who has liked the post
+    post_id = uuid
+
+    like(post_id)
+    unlike(post_id)
+
+- Replies / Comments
+    id = uuid 
+    commented_by = uuid of the user who has commented on the post
+    post_id = uuid
+
+    add_comment(post_id)
+
+-- bottlenecks and challenges while scaling the application
+    - as we scale our user_base, we will observe heavy load on db
+        - database sharding
+    - use vertical scaling ()
+    - load_balancer
+
+
+
+
+
+
+
+
+
+non functional requirements
+- scalibility
+- availability
+

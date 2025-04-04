@@ -1,0 +1,20 @@
+time complexity - map
+
+storing 
+fetching
+
+log(N) - best, average, worst
+
+unordered_map
+
+storing
+fetching
+
+O(1) - average, best
+O(N) - worst
+
+hashing - division method - linear chaning, done using linkedlist
+          folding method
+          mid squared method
+
+collision - whatever hash happens it ends up at the same key (hash index)
